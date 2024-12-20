@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		C132ADD52D13AF1600FBC759 /* CardTermView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132ADD42D13AF1600FBC759 /* CardTermView.swift */; };
+		C132ADD82D14A16400FBC759 /* TermEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132ADD72D14A16300FBC759 /* TermEditorViewModel.swift */; };
+		C132ADDA2D14F7AE00FBC759 /* BoxViewModellingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132ADD92D14F7AE00FBC759 /* BoxViewModellingProtocol.swift */; };
+		C132ADDC2D15044E00FBC759 /* BoxEditorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132ADDB2D15044E00FBC759 /* BoxEditorDelegate.swift */; };
 		FE1640962AC2126E0073317C /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1640922AC2126E0073317C /* Box.swift */; };
 		FE1640992AC2126E0073317C /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1640952AC2126E0073317C /* Term.swift */; };
 		FE3ABEC72A4F59D800432ED4 /* reRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABEC62A4F59D800432ED4 /* reRadioButton.swift */; };
@@ -44,6 +47,9 @@
 
 /* Begin PBXFileReference section */
 		C132ADD42D13AF1600FBC759 /* CardTermView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTermView.swift; sourceTree = "<group>"; };
+		C132ADD72D14A16300FBC759 /* TermEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermEditorViewModel.swift; sourceTree = "<group>"; };
+		C132ADD92D14F7AE00FBC759 /* BoxViewModellingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxViewModellingProtocol.swift; sourceTree = "<group>"; };
+		C132ADDB2D15044E00FBC759 /* BoxEditorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxEditorDelegate.swift; sourceTree = "<group>"; };
 		FE1640922AC2126E0073317C /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = SOURCE_ROOT; };
 		FE1640952AC2126E0073317C /* Term.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = SOURCE_ROOT; };
 		FE3ABEC62A4F59D800432ED4 /* reRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reRadioButton.swift; sourceTree = "<group>"; };
@@ -118,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				FE3ABECF2A4F65BC00432ED4 /* TermEditorView.swift */,
+				C132ADD72D14A16300FBC759 /* TermEditorViewModel.swift */,
 			);
 			path = TermEditor;
 			sourceTree = "<group>";
@@ -292,6 +299,8 @@
 				FEE2DC762A4B70E9006A535D /* Components */,
 				FE6A9F9B2A461E2400A84FC9 /* BoxesView.swift */,
 				FEEFCBBC2A65DAA400A61FE9 /* BoxViewModel.swift */,
+				C132ADD92D14F7AE00FBC759 /* BoxViewModellingProtocol.swift */,
+				C132ADDB2D15044E00FBC759 /* BoxEditorDelegate.swift */,
 			);
 			path = Boxes;
 			sourceTree = "<group>";
@@ -412,6 +421,7 @@
 				FEDE8E052A4DFADE00EEF7EA /* reTextField.swift in Sources */,
 				FE3ABEE92A53563F00432ED4 /* SwipperLabel.swift in Sources */,
 				FEE2DC752A4B6172006A535D /* reBackground.swift in Sources */,
+				C132ADDA2D14F7AE00FBC759 /* BoxViewModellingProtocol.swift in Sources */,
 				FEA517AA2A548FBC0004D9D1 /* SwipeReview.swift in Sources */,
 				FEA517AE2A54963E0004D9D1 /* SwipperCard.swift in Sources */,
 				FE1640962AC2126E0073317C /* Box.swift in Sources */,
@@ -436,9 +446,11 @@
 				FE6F11AD2A6059FD003511F3 /* CoreDataStack.swift in Sources */,
 				FE6F11B32A605A69003511F3 /* ActiveRecord.swift in Sources */,
 				FE3ABEE62A5354AF00432ED4 /* reTheme.swift in Sources */,
+				C132ADDC2D15044E00FBC759 /* BoxEditorDelegate.swift in Sources */,
 				FE6A9F9A2A461E2400A84FC9 /* reMindApp.swift in Sources */,
 				FEE2DC782A4B70FA006A535D /* BoxCardView.swift in Sources */,
 				FE6F11B62A605AB9003511F3 /* reMind.xcdatamodeld in Sources */,
+				C132ADD82D14A16400FBC759 /* TermEditorViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

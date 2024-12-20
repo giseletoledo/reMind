@@ -4,26 +4,20 @@
 //
 //  Created by Pedro Sousa on 29/06/23.
 //
+// update 19/12/24.
 
 import SwiftUI
 
 struct BoxEditorView: View {
+    @ObservedObject var viewModel: BoxViewModel
     @State var name: String
-    @State var keywords: String
-    @State var description: String
     @State var theme: Int
+    weak var delegate: BoxEditorDelegate?
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
                 reTextField(title: "Name", text: $name)
-                reTextField(title: "Keywords",
-                            caption: "Separated by , (comma)",
-                            text: $keywords)
-                
-                reTextEditor(title: "Description",
-                             text: $description)
-
                 reRadioButtonGroup(title: "Theme",
                                    currentSelection: $theme)
                 Spacer()
@@ -35,26 +29,31 @@ struct BoxEditorView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
-                        print("Cancel")
+                        delegate?.didCancel()
                     }
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        print("Cancel")
+                        saveBox()
+                        delegate?.didAddBox()
                     }
                     .fontWeight(.bold)
                 }
             }
         }
     }
+
+    // Função para salvar a nova caixa
+    private func saveBox() {
+        viewModel.addBox(name: name, theme: Int16(theme))
+    }
 }
 
 struct BoxEditorView_Previews: PreviewProvider {
     static var previews: some View {
-        BoxEditorView(name: "",
-                      keywords: "",
-                      description: "",
+        BoxEditorView(viewModel: BoxViewModel(),
+                      name: "",
                       theme: 0)
     }
 }
