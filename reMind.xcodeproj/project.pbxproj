@@ -11,6 +11,7 @@
 		C132ADD82D14A16400FBC759 /* TermEditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132ADD72D14A16300FBC759 /* TermEditorViewModel.swift */; };
 		C132ADDA2D14F7AE00FBC759 /* BoxViewModellingProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132ADD92D14F7AE00FBC759 /* BoxViewModellingProtocol.swift */; };
 		C132ADDC2D15044E00FBC759 /* BoxEditorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132ADDB2D15044E00FBC759 /* BoxEditorDelegate.swift */; };
+		C132ADDE2D1538C600FBC759 /* TermEditingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132ADDD2D1538C600FBC759 /* TermEditingDelegate.swift */; };
 		FE1640962AC2126E0073317C /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1640922AC2126E0073317C /* Box.swift */; };
 		FE1640992AC2126E0073317C /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1640952AC2126E0073317C /* Term.swift */; };
 		FE3ABEC72A4F59D800432ED4 /* reRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABEC62A4F59D800432ED4 /* reRadioButton.swift */; };
@@ -50,6 +51,7 @@
 		C132ADD72D14A16300FBC759 /* TermEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermEditorViewModel.swift; sourceTree = "<group>"; };
 		C132ADD92D14F7AE00FBC759 /* BoxViewModellingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxViewModellingProtocol.swift; sourceTree = "<group>"; };
 		C132ADDB2D15044E00FBC759 /* BoxEditorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxEditorDelegate.swift; sourceTree = "<group>"; };
+		C132ADDD2D1538C600FBC759 /* TermEditingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermEditingDelegate.swift; sourceTree = "<group>"; };
 		FE1640922AC2126E0073317C /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = SOURCE_ROOT; };
 		FE1640952AC2126E0073317C /* Term.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = SOURCE_ROOT; };
 		FE3ABEC62A4F59D800432ED4 /* reRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reRadioButton.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 			children = (
 				FE3ABECF2A4F65BC00432ED4 /* TermEditorView.swift */,
 				C132ADD72D14A16300FBC759 /* TermEditorViewModel.swift */,
+				C132ADDD2D1538C600FBC759 /* TermEditingDelegate.swift */,
 			);
 			path = TermEditor;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				FE6A9F9A2A461E2400A84FC9 /* reMindApp.swift in Sources */,
 				FEE2DC782A4B70FA006A535D /* BoxCardView.swift in Sources */,
 				FE6F11B62A605AB9003511F3 /* reMind.xcdatamodeld in Sources */,
+				C132ADDE2D1538C600FBC759 /* TermEditingDelegate.swift in Sources */,
 				C132ADD82D14A16400FBC759 /* TermEditorViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,56 +12,98 @@ struct BoxView: View {
     @ObservedObject var viewModel: BoxViewModel
     var box: Box
 
-    var body: some View {
-        VStack {
-            HeaderView(boxName: box.name ?? "Unknown")
-            
-            TermsListView(viewModel: viewModel, box: box) // Passando o viewModel
+    @State private var searchText: String = ""
+    @State private var isCreatingTerm: Bool = false
+    @State private var isEditingBox: Bool = false
+
+    private var filteredTerms: [Term] {
+        let terms = box.terms as? Set<Term> ?? []
+        if searchText.isEmpty {
+            return Array(terms)
+        } else {
+            return terms.filter { ($0.value ?? "").localizedCaseInsensitiveContains(searchText) }
         }
-        .navigationTitle("Box Details")
-        .navigationBarTitleDisplayMode(.inline)
+    }
+
+    var body: some View {
+        List {
+            // Barra de busca
+            SearchBar(searchText: $searchText)
+
+            // Exibição do Today's Card
+            TodaysCardsView(numberOfPendingCards: viewModel.getNumberOfPendingTerms(of: box).count,
+                            theme: box.theme)
+
+
+            // Lista de termos filtrados
+            if filteredTerms.isEmpty {
+                Text("No terms available")
+                    .foregroundColor(.gray)
+                    .padding()
+            } else {
+                TermsListView(viewModel: viewModel, terms: filteredTerms, box: box)
+            }
+        }
+        .scrollContentBackground(.hidden)
+        .background(reBackground())
+        .navigationTitle(box.name ?? "Unknown")
+        .searchable(text: $searchText, prompt: "")
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink(
-                    destination: BoxEditorView(
-                        viewModel: viewModel,
-                        name: box.name ?? "",
-                        theme: Int(box.rawTheme),
-                        delegate: viewModel as? BoxEditorDelegate
-                    )
-                ) {
-                    Text("Edit")
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button {
+                    isEditingBox.toggle()
+                } label: {
+                    Image(systemName: "square.and.pencil")
+                }
+
+                Button {
+                    isCreatingTerm.toggle()
+                } label: {
+                    Image(systemName: "plus")
                 }
             }
         }
+        .sheet(isPresented: $isEditingBox) {
+                    BoxEditorView(
+                        viewModel: viewModel,
+                        name: box.name ?? "",
+                        keywords: box.keywords ?? "",
+                        description: box.boxDescription ?? "",
+                        theme: box.theme.rawValue,
+                        delegate: viewModel
+                    )
+                }
+                .sheet(isPresented: $isCreatingTerm) {
+                    TermEditorView(viewModel: TermEditorViewModel())
+                }
+        .background(reBackground())
     }
 }
 
-struct HeaderView: View {
-    let boxName: String
+// Barra de busca personalizada
+struct SearchBar: View {
+    @Binding var searchText: String
 
     var body: some View {
-        Text(boxName)
-            .font(.largeTitle)
-            .padding()
+        TextField("Search terms", text: $searchText)
+            .padding(8)
+            .background(Color(.systemGray6))
+            .cornerRadius(10)
+            .padding(.horizontal)
     }
 }
 
+// Exibição da lista de termos
 struct TermsListView: View {
     @ObservedObject var viewModel: BoxViewModel
+    var terms: [Term]
     var box: Box
 
     var body: some View {
         ScrollView {
             VStack(spacing: 10) {
-                if let terms = box.terms as? Set<Term> {
-                    ForEach(Array(terms), id: \.self) { term in
-                        TermRowView(viewModel: viewModel, term: term, box: box) // Passando o viewModel
-                    }
-                } else {
-                    Text("No terms available")
-                        .foregroundColor(.gray)
-                        .padding()
+                ForEach(terms, id: \.self) { term in
+                    TermRowView(viewModel: viewModel, term: term, box: box, delegate: viewModel)
                 }
             }
             .padding()
@@ -69,17 +111,34 @@ struct TermsListView: View {
     }
 }
 
+
+// Definindo o TermRowView
 struct TermRowView: View {
     @ObservedObject var viewModel: BoxViewModel
     var term: Term
     var box: Box
 
+    weak var delegate: TermEditingDelegate?  // Declara o delegate
+
+    @State private var termValue: String
+
+    init(viewModel: BoxViewModel, term: Term, box: Box, delegate: TermEditingDelegate?) {
+        self.viewModel = viewModel
+        self.term = term
+        self.box = box
+        self._termValue = State(initialValue: term.value ?? "")
+        self.delegate = delegate
+    }
+
     var body: some View {
         HStack {
-            Text(term.value ?? "Unknown")
+            TextField("Term", text: $termValue)
                 .font(.body)
+                .onChange(of: termValue) { newValue in
+                    delegate?.didEditTerm(term, newValue: newValue)  // Chamando o delegate quando o valor for alterado
+                }
             Spacer()
-            Text(viewModel.getNumberOfPendingTerms(of: box)) // Chamando o método já presente
+            Text("\(viewModel.getNumberOfPendingTerms(of: box))")  // Atualiza com base no box associado
                 .font(.caption)
                 .foregroundColor(.gray)
         }
@@ -89,7 +148,7 @@ struct TermRowView: View {
         .shadow(radius: 1)
         .swipeActions {
             Button(role: .destructive) {
-                viewModel.deleteBox(box)// Chamando o método deletar
+                delegate?.didDeleteTerm(term)  // Chamando o delegate para deletar o termo
             } label: {
                 Label("Delete", systemImage: "trash")
             }
@@ -97,8 +156,7 @@ struct TermRowView: View {
     }
 }
 
-
-
+// Previews
 struct BoxView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = BoxViewModel()

@@ -6,7 +6,6 @@
 //
 //
 
-
 import Foundation
 import CoreData
 
@@ -22,6 +21,8 @@ extension Box {
 
     @NSManaged public var identifier: UUID?
     @NSManaged public var name: String?
+    @NSManaged public var keywords: String?
+    @NSManaged public var boxDescription: String?
     @NSManaged public var rawTheme: Int16
     @NSManaged public var terms: NSSet?
 
@@ -56,10 +57,17 @@ extension Box: CoreDataModel {
     var numberOfTerms: Int { self.terms?.count ?? 0 }
 }
 
+extension Box{
+    override public func awakeFromInsert() {
+        super.awakeFromInsert()
+        self.identifier = UUID()
+    }
+}
+
 enum reTheme: Int {
-    case aquamarine = 0
-    case mauve
+    case mauve = 0
     case lavender
+    case aquamarine
 
     var name: String {
         switch self {

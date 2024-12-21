@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TodaysCardsView: View {
     @State var numberOfPendingCards: Int
-    @State var theme: reTheme
+    let theme: reTheme
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -25,7 +25,7 @@ struct TodaysCardsView: View {
                 Text("Start Swipping")
                     .frame(maxWidth: .infinity)
             })
-            .buttonStyle(reColorButtonStyle(.mauve))
+            .buttonStyle(reColorButtonStyle(theme))
             .padding(.top, 10)
         }
         .padding(.vertical, 16)

@@ -8,6 +8,6 @@
 import Foundation
 
 protocol BoxEditorDelegate: AnyObject {
-    func didAddBox()
+    func didAddBox(name: String, keywords: String, description: String, theme: Int)
     func didCancel()
 }

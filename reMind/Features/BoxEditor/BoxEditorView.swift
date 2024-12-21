@@ -11,15 +11,25 @@ import SwiftUI
 struct BoxEditorView: View {
     @ObservedObject var viewModel: BoxViewModel
     @State var name: String
+    @State var keywords: String
+    @State var description: String
     @State var theme: Int
     weak var delegate: BoxEditorDelegate?
+    
+    // Ambiente para dismiss
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
+                // Campos de entrada de dados
                 reTextField(title: "Name", text: $name)
-                reRadioButtonGroup(title: "Theme",
-                                   currentSelection: $theme)
+                reTextField(title: "Keywords",
+                            caption: "Separated by , (comma)",
+                            text: $keywords)
+                reTextEditor(title: "Description", text: $description)
+                reRadioButtonGroup(title: "Theme", currentSelection: $theme)
+                
                 Spacer()
             }
             .padding()
@@ -27,26 +37,24 @@ struct BoxEditorView: View {
             .navigationTitle("New Box")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                // Botão "Cancel"
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Cancel") {
-                        delegate?.didCancel()
+                        delegate?.didCancel()  // Chama o método de cancelamento
+                        dismiss()               // Dismissa a view
                     }
                 }
-
+                
+                // Botão "Save"
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        saveBox()
-                        delegate?.didAddBox()
+                        delegate?.didAddBox(name: name, keywords: keywords, description: description, theme: theme) // Chama a função para salvar
+                        dismiss()  // Dismiss a view
                     }
                     .fontWeight(.bold)
                 }
             }
         }
-    }
-
-    // Função para salvar a nova caixa
-    private func saveBox() {
-        viewModel.addBox(name: name, theme: Int16(theme))
     }
 }
 
@@ -54,6 +62,10 @@ struct BoxEditorView_Previews: PreviewProvider {
     static var previews: some View {
         BoxEditorView(viewModel: BoxViewModel(),
                       name: "",
-                      theme: 0)
+                      keywords: "",
+                      description: "",
+                      theme: 0,
+                      delegate: nil)
     }
 }
+

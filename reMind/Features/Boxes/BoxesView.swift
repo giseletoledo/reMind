@@ -5,7 +5,7 @@ struct BoxesView<ViewModel: BoxViewModellingProtocol>: View {
         GridItem(.adaptive(minimum: 140), spacing: 20),
         GridItem(.adaptive(minimum: 140), spacing: 20)
     ]
-    
+
     @ObservedObject var viewModel: ViewModel
     @State private var isCreatingNewBox: Bool = false
 
@@ -32,15 +32,23 @@ struct BoxesView<ViewModel: BoxViewModellingProtocol>: View {
                 }
             }
             .sheet(isPresented: $isCreatingNewBox) {
-                // Passando viewModel como delegado diretamente
-                BoxEditorView(viewModel: viewModel as! BoxViewModel,  // Forçando para BoxViewModel
-                              name: "",
-                              theme: 0,
-                              delegate: viewModel as? BoxEditorDelegate) // Passando viewModel como delegado
+                if let boxViewModel = viewModel as? BoxViewModel {
+                    BoxEditorView(
+                        viewModel: boxViewModel,
+                        name: "",
+                        keywords: "",
+                        description: "",
+                        theme: 0,
+                        delegate: viewModel as? BoxEditorDelegate
+                    )
+                } else {
+                    Text("Erro: ViewModel inválido.")
+                }
             }
         }
     }
 }
+
 
 struct BoxItemView<ViewModel: BoxViewModellingProtocol>: View {
     @ObservedObject var viewModel: ViewModel
@@ -68,31 +76,43 @@ struct BoxItemView<ViewModel: BoxViewModellingProtocol>: View {
 
 
 struct BoxesView_Previews: PreviewProvider {
-    static let viewModel: BoxViewModel = {
-        let box1 = Box(context: CoreDataStack.inMemory.managedContext)
-        box1.name = "Box 1"
-        box1.rawTheme = 0
-
-        let term = Term(context: CoreDataStack.inMemory.managedContext)
-        term.lastReview = Calendar.current.date(byAdding: .day, value: -5, to: Date())!
-        box1.addToTerms(term)
-
-        let box2 = Box(context: CoreDataStack.inMemory.managedContext)
-        box2.name = "Box 2"
-        box2.rawTheme = 1
-
-        let box3 = Box(context: CoreDataStack.inMemory.managedContext)
-        box3.name = "Box 3"
-        box3.rawTheme = 2
-
-        let viewModel = BoxViewModel()
-        viewModel.boxes = [box1, box2, box3]
-        return viewModel
-    }()
-
     static var previews: some View {
-        NavigationStack {
-            BoxesView(viewModel: BoxesView_Previews.viewModel)
+        let viewModel = BoxViewModel()
+
+        // Criando caixas de exemplo usando o método unificado de adicionar
+        viewModel.addBox(
+            name: "Box 1",
+            keywords: "Sample, Keywords",
+            description: "A description for Box 1",
+            theme: 0
+        )
+
+        let term1 = Term(context: CoreDataStack.inMemory.managedContext)
+        term1.value = "Sample Term 1"
+        term1.lastReview = Calendar.current.date(byAdding: .day, value: -5, to: Date())
+
+        // Adicionando o termo diretamente ao contexto, se necessário
+        if let firstBox = viewModel.boxes.first {
+            firstBox.addToTerms(term1)
+        }
+
+        viewModel.addBox(
+            name: "Box 2",
+            keywords: "Another, Set",
+            description: "A description for Box 2",
+            theme: 1
+        )
+        
+        viewModel.addBox(
+            name: "Box 3",
+            keywords: "Third, Example",
+            description: "A description for Box 3",
+            theme: 2
+        )
+
+        return NavigationStack {
+            BoxesView(viewModel: viewModel)
         }
     }
 }
+
