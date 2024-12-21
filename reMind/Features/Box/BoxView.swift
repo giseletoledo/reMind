@@ -74,7 +74,7 @@ struct BoxView: View {
                     )
                 }
                 .sheet(isPresented: $isCreatingTerm) {
-                    TermEditorView(viewModel: TermEditorViewModel())
+                    TermEditorView(viewModel: TermEditorViewModel(box:box))
                 }
         .background(reBackground())
     }

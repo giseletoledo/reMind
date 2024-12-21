@@ -5,35 +5,65 @@
 //  Created by GISELE TOLEDO on 19/12/24.
 //
 
-import SwiftUI
+import Foundation
 import CoreData
 
 class TermEditorViewModel: ObservableObject {
-    @Published var term: Term
-    var isEditing: Bool
-    
-    init(term: Term? = nil) {
-        if let term = term {
+    @Published var terms: [Term] = []
+        var term: Term?
+        var box: Box? // Adiciona a referência à Box
+        var isEditing: Bool = false
+
+        init(term: Term? = nil, box: Box? = nil, isEditing: Bool = false) {
             self.term = term
-            self.isEditing = true
-        } else {
-            self.term = Term(context: CoreDataStack.shared.managedContext)
-            self.isEditing = false
+            self.box = box
+            self.isEditing = isEditing
+            fetchTerms()
+        }
+
+    
+    func addTerm(value: String, meaning: String?) {
+            guard let box = box else { return } // Certifica-se de que a Box existe
+
+            let newTerm = Term(context: CoreDataStack.shared.managedContext)
+            newTerm.value = value
+            newTerm.meaning = meaning
+            newTerm.creationDate = Date()
+            newTerm.identifier = UUID()
+            newTerm.boxID = box // Define a relação com a Box
+            box.addToTerms(newTerm) // Adiciona o novo termo à relação da Box
+            saveContext()
+            fetchTerms()
+        }
+
+        func updateTerm(term: Term, value: String, meaning: String?) {
+            term.value = value
+            term.meaning = meaning
+            term.lastReview = Date() // Atualize a data da última revisão
+            saveContext()
+            fetchTerms()
+        }
+
+        func removeTerm(_ term: Term) {
+            CoreDataStack.shared.managedContext.delete(term)
+            saveContext()
+            fetchTerms()
+        }
+    
+    func fetchTerms() {
+        let request: NSFetchRequest<Term> = Term.fetchRequest()
+        do {
+            terms = try CoreDataStack.shared.managedContext.fetch(request)
+        } catch {
+            print("Failed to fetch terms: \(error)")
         }
     }
-    
-    func save() {
+
+    func saveContext() {
         do {
             try CoreDataStack.shared.managedContext.save()
         } catch {
-            print("Failed to save term: \(error)")
-        }
-    }
-    
-    func delete() {
-        if isEditing {
-            CoreDataStack.shared.managedContext.delete(term)
-            save()
+            print("Failed to save context: \(error)")
         }
     }
 }
