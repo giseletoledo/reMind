@@ -61,7 +61,7 @@ struct BoxItemView<ViewModel: BoxViewModellingProtocol>: View {
                 BoxCardView(boxName: box.name ?? "Unknown",
                             numberOfTerms: box.numberOfTerms,
                             theme: box.theme)
-                .reBadge(viewModel.getNumberOfPendingTerms(of: box))
+                .reBadge("\(viewModel.getNumberOfPendingTerms(of: box).count)") 
             }
             
             // Botão de lixeira posicionado no canto superior direito do card

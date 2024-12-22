@@ -10,7 +10,7 @@ import SwiftUI
 struct reBadgeModifier: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
 
-    @State var value: String
+    var value: String
 
     private var textColor: Color {
         colorScheme == .light ? Palette.reWhite.render : Palette.reBlack.render
@@ -21,33 +21,26 @@ struct reBadgeModifier: ViewModifier {
     }
 
     func body(content: Content) -> some View {
-        if value.isEmpty {
+        ZStack(alignment: .topTrailing) { // Posiciona o badge no topo à direita
             content
-        } else {
-            content
-                .overlay {
-                    GeometryReader { reader in
-                        Text(value)
-                            .padding(6)
-                            .font(.body)
-                            .foregroundColor(textColor)
-                            .fontWeight(.bold)
-                            .background {
-                                RoundedRectangle(cornerRadius: 17.5)
-                                    .fill(backgroundColor)
-                                    .frame(height: 35)
-                                    .frame(minWidth: 35, maxWidth: 40)
-                            }
-                            .position(x: reader.size.width - 4, y: 4)
-                            .zIndex(.infinity)
+            if !value.isEmpty {
+                Text(value)
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .foregroundColor(textColor)
+                    .padding(8)
+                    .background {
+                        Circle()
+                            .fill(backgroundColor)
                     }
-                }
+                    .offset(x: 0, y: -15) // Ajusta a posição no canto superior direito
+            }
         }
     }
 }
 
 extension View {
     func reBadge(_ value: String) -> some View {
-        modifier(reBadgeModifier(value: value))
+        self.modifier(reBadgeModifier(value: value))
     }
 }
