@@ -10,6 +10,7 @@ import SwiftUI
 
 struct BoxEditorView: View {
     @ObservedObject var viewModel: BoxViewModel
+    @State var identifier: UUID? // Identificador opcional para edição
     @State var name: String
     @State var keywords: String
     @State var description: String
@@ -48,7 +49,12 @@ struct BoxEditorView: View {
                 // Botão "Save"
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        delegate?.didAddBox(name: name, keywords: keywords, description: description, theme: theme) // Chama a função para salvar
+                        viewModel.addOrEditBox(
+                            identifier: identifier, // Passa o identifier para edição
+                            name: name,
+                            keywords: keywords,
+                            description: description,
+                            theme: theme) // Chama a função para salvar
                         dismiss()  // Dismiss a view
                     }
                     .fontWeight(.bold)

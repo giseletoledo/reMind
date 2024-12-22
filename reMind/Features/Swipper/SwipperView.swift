@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SwipperView: View {
-    @State var review: SwipeReview
+    var termsToReview: [Term]
     @State private var direction: SwipperDirection = .none
 
     var body: some View {
@@ -18,12 +18,17 @@ struct SwipperView: View {
 
             Spacer()
 
-            SwipperCard(direction: $direction,
-                frontContent: {
-                    Text("Term")
-                }, backContent: {
-                    Text("Meaning")
-                })
+            // Verifique se há termos para revisar
+            if let firstTerm = termsToReview.first {
+                SwipperCard(direction: $direction,
+                            frontContent: {
+                                Text(firstTerm.value ?? "Term")
+                            }, backContent: {
+                                Text(firstTerm.meaning ?? "Meaning")
+                            })
+            } else {
+                Text("No terms to review")
+            }
 
             Spacer()
 
@@ -40,26 +45,19 @@ struct SwipperView: View {
         .padding(.horizontal)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(reBackground())
-        .navigationTitle("\(review.termsToReview.count) terms left")
+        .navigationTitle("\(termsToReview.count) terms left")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 struct SwipperView_Previews: PreviewProvider {
-    static let term: Term = {
-        let term = Term(context: CoreDataStack.inMemory.managedContext)
-        term.value = "Term"
-        term.meaning = "Meaning"
-        term.rawSRS = 0
-        term.rawTheme = 0
-        
-        return term
-    }()
     static var previews: some View {
-        NavigationStack {
-            SwipperView(review: SwipeReview(termsToReview: [
-                Term(context: CoreDataStack.inMemory.managedContext)
-            ]))
+        let term = Term(context: CoreDataStack.inMemory.managedContext)
+        term.value = "Sample Term"
+        term.meaning = "Sample Meaning"
+        
+        return NavigationStack {
+            SwipperView(termsToReview: [term])
         }
     }
 }

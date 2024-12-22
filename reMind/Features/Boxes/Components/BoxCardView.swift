@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct BoxCardView: View {
-    @State private var boxName: String
-    @State private var numberOfTerms: Int
-    @State private var theme: reTheme
+    @Binding private var boxName: String
+    @Binding private var numberOfTerms: Int
+    @Binding private var theme: reTheme
 
+    // Inicializador personalizado
     init(boxName: String, numberOfTerms: Int, theme: reTheme) {
-        self.boxName = boxName
-        self.numberOfTerms = numberOfTerms
-        self.theme = theme
+        self._boxName = .constant(boxName)
+        self._numberOfTerms = .constant(numberOfTerms)
+        self._theme = .constant(theme)
     }
 
     var body: some View {
@@ -39,8 +40,6 @@ struct BoxCardView: View {
 
 struct BoxCardView_Previews: PreviewProvider {
     static var previews: some View {
-        BoxCardView(boxName: "Math",
-                    numberOfTerms: 35,
-                    theme: .mauve)
+        BoxCardView(boxName: "Math", numberOfTerms: 35, theme: .mauve)
     }
 }

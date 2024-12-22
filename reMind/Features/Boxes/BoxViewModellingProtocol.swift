@@ -10,7 +10,6 @@ import Foundation
 protocol BoxViewModellingProtocol: ObservableObject {
     var boxes: [Box] { get }
     func fetchBoxes()
-    func addBox(name: String, theme: Int16)
     func deleteBox(_ box: Box)
     func getNumberOfPendingTerms(of box: Box) -> String
 }

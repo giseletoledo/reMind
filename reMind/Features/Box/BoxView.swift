@@ -31,8 +31,7 @@ struct BoxView: View {
             SearchBar(searchText: $searchText)
 
             // Exibição do Today's Card
-            TodaysCardsView(numberOfPendingCards: viewModel.getNumberOfPendingTerms(of: box).count,
-                            theme: box.theme)
+            TodaysCardsView(numberOfPendingCards: viewModel.getNumberOfPendingTerms(of: box).count,theme: box.theme, selectedBox: box)
 
 
             // Lista de termos filtrados
@@ -66,6 +65,7 @@ struct BoxView: View {
         .sheet(isPresented: $isEditingBox) {
                     BoxEditorView(
                         viewModel: viewModel,
+                        identifier: box.identifier, // Passa o identifier existente
                         name: box.name ?? "",
                         keywords: box.keywords ?? "",
                         description: box.boxDescription ?? "",
