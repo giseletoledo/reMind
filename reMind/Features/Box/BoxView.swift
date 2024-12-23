@@ -10,12 +10,12 @@ import CoreData
 
 struct BoxView: View {
     @ObservedObject var viewModel: BoxViewModel
-    var box: Box
-
+    @ObservedObject var box: Box
+    
     @State private var searchText: String = ""
     @State private var isCreatingTerm: Bool = false
     @State private var isEditingBox: Bool = false
-
+    
     private var filteredTerms: [Term] {
         let terms = box.terms as? Set<Term> ?? []
         if searchText.isEmpty {
@@ -24,27 +24,36 @@ struct BoxView: View {
             return terms.filter { ($0.value ?? "").localizedCaseInsensitiveContains(searchText) }
         }
     }
-
+    
     var body: some View {
-        List {
-            // Barra de busca
-            SearchBar(searchText: $searchText)
-
-            // Exibição do Today's Card
-            TodaysCardsView(numberOfPendingCards: viewModel.getNumberOfPendingTerms(of: box).count,theme: box.theme, selectedBox: box)
-
-
-            // Lista de termos filtrados
-            if filteredTerms.isEmpty {
-                Text("No terms available")
-                    .foregroundColor(.gray)
-                    .padding()
-            } else {
-                TermsListView(viewModel: viewModel, terms: filteredTerms, box: box)
+        ZStack {
+            // Background ocupa toda a área
+            reBackground()
+                .ignoresSafeArea() // Garante que o fundo cobre toda a tela
+            
+            VStack(alignment: .leading, spacing: 16) {
+                // Barra de busca
+                SearchBar(searchText: $searchText)
+                
+                // Exibição do Today's Card
+                TodaysCardsView(numberOfPendingCards:
+                                viewModel.getNumberOfPendingTerms(of: box).count,
+                                theme: box.theme,
+                                selectedBox: box)
+                    .padding(.horizontal) // Adiciona padding nas laterais
+                
+                // Lista de termos filtrados ou mensagem de ausência
+                if filteredTerms.isEmpty {
+                    Text("No terms available")
+                        .foregroundColor(.gray)
+                        .padding()
+                } else {
+                    TermsListView(viewModel: viewModel, terms: filteredTerms, box: box)
+                }
+                Spacer()
             }
+            .scrollContentBackground(.hidden) // Oculta fundo de rolagem padrão
         }
-        .scrollContentBackground(.hidden)
-        .background(reBackground())
         .navigationTitle(box.name ?? "Unknown")
         .searchable(text: $searchText, prompt: "")
         .toolbar {
@@ -54,7 +63,7 @@ struct BoxView: View {
                 } label: {
                     Image(systemName: "square.and.pencil")
                 }
-
+                
                 Button {
                     isCreatingTerm.toggle()
                 } label: {
@@ -63,20 +72,19 @@ struct BoxView: View {
             }
         }
         .sheet(isPresented: $isEditingBox) {
-                    BoxEditorView(
-                        viewModel: viewModel,
-                        identifier: box.identifier, // Passa o identifier existente
-                        name: box.name ?? "",
-                        keywords: box.keywords ?? "",
-                        description: box.boxDescription ?? "",
-                        theme: box.theme.rawValue,
-                        delegate: viewModel
-                    )
-                }
-                .sheet(isPresented: $isCreatingTerm) {
-                    TermEditorView(viewModel: TermEditorViewModel(box:box))
-                }
-        .background(reBackground())
+            BoxEditorView(
+                viewModel: viewModel,
+                identifier: box.identifier, // Passa o identifier existente
+                name: box.name ?? "",
+                keywords: box.keywords ?? "",
+                description: box.boxDescription ?? "",
+                theme: box.theme.rawValue,
+                delegate: viewModel
+            )
+        }
+        .sheet(isPresented: $isCreatingTerm) {
+            TermEditorView(viewModel: TermEditorViewModel(box: box))
+        }
     }
 }
 
@@ -93,26 +101,21 @@ struct SearchBar: View {
     }
 }
 
-// Exibição da lista de termos
 struct TermsListView: View {
     @ObservedObject var viewModel: BoxViewModel
     var terms: [Term]
     var box: Box
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 10) {
-                ForEach(terms, id: \.self) { term in
-                    TermRowView(viewModel: viewModel, term: term, box: box, delegate: viewModel)
-                }
+        List {
+            ForEach(terms, id: \.self) { term in
+                TermRowView(viewModel: viewModel, term: term, box: box, delegate: viewModel)
             }
-            .padding()
         }
+        .listStyle(PlainListStyle()) // Use PlainListStyle para controlar a aparência da lista
     }
 }
 
-
-// Definindo o TermRowView
 struct TermRowView: View {
     @ObservedObject var viewModel: BoxViewModel
     var term: Term
@@ -146,7 +149,7 @@ struct TermRowView: View {
         .background(Color(.secondarySystemBackground))
         .cornerRadius(8)
         .shadow(radius: 1)
-        .swipeActions {
+        .swipeActions(edge: .trailing) {  // Certifique-se de que o swipeActions está corretamente aplicado
             Button(role: .destructive) {
                 delegate?.didDeleteTerm(term)  // Chamando o delegate para deletar o termo
             } label: {
@@ -155,6 +158,7 @@ struct TermRowView: View {
         }
     }
 }
+
 
 // Previews
 struct BoxView_Previews: PreviewProvider {

@@ -53,17 +53,17 @@ struct BoxesView<ViewModel: BoxViewModellingProtocol>: View {
   
 struct BoxItemView<ViewModel: BoxViewModellingProtocol>: View {
     @ObservedObject var viewModel: ViewModel
-    var box: Box
+    @ObservedObject var box: Box
 
     var body: some View {
-        ZStack(alignment: .topTrailing) { // Usar ZStack para sobrepor elementos
+        ZStack(alignment: .topTrailing) { // Garantir sobreposição no item
             NavigationLink(destination: BoxView(viewModel: viewModel as! BoxViewModel, box: box)) {
                 BoxCardView(boxName: box.name ?? "Unknown",
                             numberOfTerms: box.numberOfTerms,
                             theme: box.theme)
-                .reBadge("\(viewModel.getNumberOfPendingTerms(of: box).count)") 
+                .reBadge("\(viewModel.getNumberOfPendingTerms(of: box))") // Mostra o badge corretamente
             }
-            
+
             // Botão de lixeira posicionado no canto superior direito do card
             Button(action: {
                 viewModel.deleteBox(box)
@@ -75,9 +75,9 @@ struct BoxItemView<ViewModel: BoxViewModellingProtocol>: View {
                     .clipShape(Circle()) // Deixa o botão redondo
                     .shadow(radius: 1)
             }
-            .offset(x: -10, y: 10) // Ajusta o posicionamento do botão
+            .padding(10) // Distância das bordas do card
         }
-        .padding(5) // Espaço entre os elementos
+        .padding(5) // Espaço entre os cards
     }
 }
 
