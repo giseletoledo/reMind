@@ -48,6 +48,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C11BFF002D18E98800FB840C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		C11BFF012D18E9C800FB840C /* Simulator Screen Recording - iPhone 16 Pro - 2024-12-22 at 21.37.48.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "Simulator Screen Recording - iPhone 16 Pro - 2024-12-22 at 21.37.48.gif"; sourceTree = "<group>"; };
 		C132ADD42D13AF1600FBC759 /* CardTermView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTermView.swift; sourceTree = "<group>"; };
 		C132ADD72D14A16300FBC759 /* TermEditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermEditorViewModel.swift; sourceTree = "<group>"; };
 		C132ADD92D14F7AE00FBC759 /* BoxViewModellingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxViewModellingProtocol.swift; sourceTree = "<group>"; };
@@ -186,6 +188,8 @@
 			children = (
 				FE6A9F982A461E2400A84FC9 /* reMind */,
 				FE6A9F972A461E2400A84FC9 /* Products */,
+				C11BFF002D18E98800FB840C /* README.md */,
+				C11BFF012D18E9C800FB840C /* Simulator Screen Recording - iPhone 16 Pro - 2024-12-22 at 21.37.48.gif */,
 			);
 			sourceTree = "<group>";
 		};
