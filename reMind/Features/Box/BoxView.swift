@@ -37,7 +37,7 @@ struct BoxView: View {
                 
                 // Exibição do Today's Card
                 TodaysCardsView(numberOfPendingCards:
-                                viewModel.getNumberOfPendingTerms(of: box).count,
+                                viewModel.getNumberOfPendingTerms(of: box),
                                 theme: box.theme,
                                 selectedBox: box)
                     .padding(.horizontal) // Adiciona padding nas laterais

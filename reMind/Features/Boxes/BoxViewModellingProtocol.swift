@@ -11,5 +11,5 @@ protocol BoxViewModellingProtocol: ObservableObject {
     var boxes: [Box] { get }
     func fetchBoxes()
     func deleteBox(_ box: Box)
-    func getNumberOfPendingTerms(of box: Box) -> String
+    func getNumberOfPendingTerms(of box: Box) -> Int
 }

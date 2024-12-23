@@ -81,7 +81,4 @@ struct BoxItemView<ViewModel: BoxViewModellingProtocol>: View {
     }
 }
 
-  
-
-
 

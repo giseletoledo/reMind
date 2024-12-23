@@ -38,18 +38,43 @@ class BoxViewModel: BoxViewModellingProtocol, TermEditingDelegate, BoxEditorDele
             saveContext()
             fetchBoxes()
         }
-    
-    // Implementação do protocolo TermEditingDelegate
+        
     func didEditTerm(_ term: Term, newValue: String) {
         term.value = newValue
+        term.lastReview = Date() // Atualiza a data da última revisão
+        saveContext()
+
+        // Recalcula os dados da caixa que contém o termo atualizado
+        if let box = term.boxID {
+            updatePendingTerms(for: box)
+        }
+    }
+    
+    private func updatePendingTerms(for box: Box) {
+        guard let termSet = box.terms as? Set<Term> else { return } // Obtém os termos relacionados
+        let today = Date()
+
+        // Filtra os termos que estão pendentes
+        let filteredTerms = termSet.filter { term in
+            let srs = Int(term.rawSRS)
+            guard let lastReview = term.lastReview,
+                  let nextReview = Calendar.current.date(byAdding: .day, value: srs, to: lastReview)
+            else { return false }
+
+            return nextReview <= today
+        }
+
+        // Atualiza o número de termos pendentes diretamente no Core Data
+        box.setValue(Int16(filteredTerms.count), forKey: "numberOfPendingTerms")
         saveContext()
     }
 
-    // Método para deletar o termo
-    func didDeleteTerm(_ term: Term) {
-        CoreDataStack.shared.managedContext.delete(term)
-        saveContext()
-    }
+        // Método para deletar o termo
+        func didDeleteTerm(_ term: Term) {
+            CoreDataStack.shared.managedContext.delete(term)
+            saveContext()
+            fetchBoxes() // Atualize os dados após deletar
+        }
    
     
     func addOrEditBox(
@@ -80,10 +105,7 @@ class BoxViewModel: BoxViewModellingProtocol, TermEditingDelegate, BoxEditorDele
         fetchBoxes()
     }
 
-    
-
-    // Função para obter o número de termos pendentes de revisão
-    func getNumberOfPendingTerms(of box: Box) -> String {
+    func getNumberOfPendingTerms(of box: Box) -> Int {
         let termSet = box.terms as? Set<Term> ?? []
         let today = Date()
         let filteredTerms = termSet.filter { term in
@@ -95,8 +117,9 @@ class BoxViewModel: BoxViewModellingProtocol, TermEditingDelegate, BoxEditorDele
             return nextReview <= today
         }
 
-        return filteredTerms.count == 0 ? "" : "\(filteredTerms.count)"
+        return filteredTerms.count
     }
+
     
     // Função para salvar o contexto
     private func saveContext() {

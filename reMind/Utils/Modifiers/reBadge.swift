@@ -33,7 +33,7 @@ struct reBadgeModifier: ViewModifier {
                         Circle()
                             .fill(backgroundColor)
                     }
-                    .offset(x: 0, y: -15) // Ajusta a posição no canto superior direito
+                    .offset(x: 16, y: -10) // Ajusta a posição no canto superior direito
             }
         }
     }
