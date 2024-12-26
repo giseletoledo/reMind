@@ -13,6 +13,8 @@
 		C132ADDC2D15044E00FBC759 /* BoxEditorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132ADDB2D15044E00FBC759 /* BoxEditorDelegate.swift */; };
 		C132ADDE2D1538C600FBC759 /* TermEditingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132ADDD2D1538C600FBC759 /* TermEditingDelegate.swift */; };
 		C132ADE22D1776ED00FBC759 /* ReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132ADE12D1776ED00FBC759 /* ReviewViewModel.swift */; };
+		C1EF3F282D1DBC3700054852 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EF3F272D1DBC3700054852 /* SplashScreenView.swift */; };
+		C1EF3F2A2D1DC69100054852 /* SwipperReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EF3F292D1DC69100054852 /* SwipperReportView.swift */; };
 		FE1640962AC2126E0073317C /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1640922AC2126E0073317C /* Box.swift */; };
 		FE1640992AC2126E0073317C /* Term.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE1640952AC2126E0073317C /* Term.swift */; };
 		FE3ABEC72A4F59D800432ED4 /* reRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3ABEC62A4F59D800432ED4 /* reRadioButton.swift */; };
@@ -56,6 +58,8 @@
 		C132ADDB2D15044E00FBC759 /* BoxEditorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxEditorDelegate.swift; sourceTree = "<group>"; };
 		C132ADDD2D1538C600FBC759 /* TermEditingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermEditingDelegate.swift; sourceTree = "<group>"; };
 		C132ADE12D1776ED00FBC759 /* ReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewModel.swift; sourceTree = "<group>"; };
+		C1EF3F272D1DBC3700054852 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		C1EF3F292D1DC69100054852 /* SwipperReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipperReportView.swift; sourceTree = "<group>"; };
 		FE1640922AC2126E0073317C /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = SOURCE_ROOT; };
 		FE1640952AC2126E0073317C /* Term.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Term.swift; sourceTree = SOURCE_ROOT; };
 		FE3ABEC62A4F59D800432ED4 /* reRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reRadioButton.swift; sourceTree = "<group>"; };
@@ -106,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				C132ADD32D13AEEE00FBC759 /* Components */,
+				C1EF3F292D1DC69100054852 /* SwipperReportView.swift */,
 			);
 			path = SwipperReport;
 			sourceTree = "<group>";
@@ -116,6 +121,14 @@
 				C132ADD42D13AF1600FBC759 /* CardTermView.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		C1EF3F262D1DBBD600054852 /* SplashScreen */ = {
+			isa = PBXGroup;
+			children = (
+				C1EF3F272D1DBC3700054852 /* SplashScreenView.swift */,
+			);
+			path = SplashScreen;
 			sourceTree = "<group>";
 		};
 		FE3ABECB2A4F5E7F00432ED4 /* Components */ = {
@@ -207,8 +220,9 @@
 				FE6A9FA72A461F1400A84FC9 /* App */,
 				FE3ABEE02A53543300432ED4 /* Models */,
 				FE6A9FA82A461F1E00A84FC9 /* Utils */,
-				FE6A9FAE2A461FF200A84FC9 /* Features */,
+				C1EF3F262D1DBBD600054852 /* SplashScreen */,
 				FE6A9FB02A46202500A84FC9 /* Services */,
+				FE6A9FAE2A461FF200A84FC9 /* Features */,
 				FE6A9FB12A46205F00A84FC9 /* Resources */,
 				FE6A9F9F2A461E2500A84FC9 /* Preview Content */,
 			);
@@ -442,7 +456,9 @@
 				FEE2DC732A4B5CE4006A535D /* Palette.swift in Sources */,
 				FE3ABEDA2A532A4D00432ED4 /* reColorButtonStyle.swift in Sources */,
 				FE3ABED22A4F680C00432ED4 /* reButtonStyle.swift in Sources */,
+				C1EF3F2A2D1DC69100054852 /* SwipperReportView.swift in Sources */,
 				FE5B807A2A4CB0DA00711F80 /* reBadge.swift in Sources */,
+				C1EF3F282D1DBC3700054852 /* SplashScreenView.swift in Sources */,
 				FE3ABEC72A4F59D800432ED4 /* reRadioButton.swift in Sources */,
 				FEDE8E0D2A4E037F00EEF7EA /* reTextEditor.swift in Sources */,
 				FEDE8E092A4DFFE100EEF7EA /* BoxEditorView.swift in Sources */,
